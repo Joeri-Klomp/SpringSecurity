@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LoginPagina</title>
+    <link rel="stylesheet" th:href="@{/css/security.css}"></link>
+</head>
+<body>
+<h1>Inloggen</h1>
+<form th:action="@{/login}" method="post">
+<!--    Je submit de form met een POST request naar dezelfde URL waarop je straks de form toont. Spring Security verwerkt de request en doet authenticatie.-->
+    <input name="username" required autofocus placeholder="Gebruikersnaam">
+<!--    name moet "username" zijn hier-->
+    <input name="password" type="password" required placeholder="Paswoord">
+<!--    name moet "password" zijn hier-->
+    <button>Inloggen</button>
+</form>
+<div th:if="${param.error}">Verkeerde gebruikersnaam of paswoord</div>
+</body>
+</html>

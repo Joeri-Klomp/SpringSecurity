@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Welkom</title>
+    <link rel="stylesheet" th:href="@{/css/security.css}"></link>
+</head>
+<body>
+<h1>Welkom</h1>
+<ul>
+    <li sec:authorize-url="/offertes"><a th:href="@{/offertes}">Offertes</a></li>
+<!--We tonen de link als de gebruiker toegang heeft tot de pagina-->
+    <li sec:authorize-url="/werknemers"><a th:href="@{/werknemers}">Werknemers</a></li>
+    <li sec:authorize="isAnonymous()"><a th:href="@{/login}">Inloggen</a></li>
+<!--We tonen de hyperlink naar de inlogpagina enkel wanneer de gebruiker niet is ingelogd. Wanneer we geen link naar een
+ inlogpagina aanbieden wordt er gevraagd in te loggen wanneer er voor het eerst een beveiligde pagina wordt geopend-->
+</ul>
+<form sec:authorize="isAuthenticated()" method="post" th:action="@{/logout}">
+    <button>Gebruiker <th:block sec:authentication="name"></th:block>: uitloggen</button>
+<!-- Je toont met sec:authentication="name" de naam van de ingelogde gebruiker.-->
+</form>
+<!--Spring Security logt je uit bij een POST request naar de URL /logout. We tonen de hyperlink alleen wanneer de gebruiker
+ingelogd is.-->
+
+<div sec:authorize="isAuthenticated()">
+    <h2>U bent momenteel ingelogd.</h2>
+    <div sec:authorize="hasAuthority('manager')">
+        Uw rol: Manager
+    </div>
+    <div sec:authorize="hasAuthority('helpdeskmedewerker')">
+        Uw rol: Helpdeskmedewerker
+    </div>
+    <div sec:authorize="hasAuthority('magazijnier')">
+        Uw rol: Magazijnier
+    </div>
+</div>
+<div sec:authorize="isAnonymous()">
+    <h2>U bent momenteel niet ingelogd.</h2>
+</div>
+
+</body>
+
+</html>
